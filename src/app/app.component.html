@@ -1,0 +1,90 @@
+<div *ngIf="statges$| async; let  statges">
+    <div style=" display: flex;">
+        <div>
+            <img src="assets/logo.svg" width="120px"/>
+        </div>
+
+
+        <div style="display: flex;padding-top:5px;padding-left: 50px">
+            <div style="padding: 10px">Team</div>
+            <div style="padding: 10px">About</div>
+            <div style="padding: 10px">Structure</div>
+            <div style="padding: 10px">Technology</div>
+        </div>
+
+
+
+    </div>
+
+    <div style="text-align: center;padding: 80px">
+        <h2>
+            Robotization - the displacement of people from the production process, with their replacement by
+            industrial robots.</h2>
+
+
+    </div>
+
+    <div style="display: flex;max-width: 800px;padding-bottom: 100px">
+
+
+        <div>
+            <img src="assets/controller-assembly.JPG" width="400px"/>
+        </div>
+
+        <div>
+            <img src="assets/drone_assembly.JPG" width="400px"/>
+        </div>
+
+
+
+    </div>
+
+
+
+
+    <h3>Basic stages:</h3>
+    <ol>
+
+        <li *ngFor="let stage of statges">{{stage.name}}</li>
+
+    </ol>
+
+    <div style="display: flex;max-width: 800px;padding-bottom: 100px">
+
+
+
+        <div>
+            <img src="assets/controller_assembly.JPG" width="200px"/>
+        </div>
+        <div>
+            <img src="assets/hub-assebly.JPG" width="200px"/>
+        </div>
+        <div>
+            <img src="assets/module-assembly.JPG" width="200px"/>
+        </div>
+        <div>
+            <img src="assets/drone-hub.JPG" width="200px"/>
+        </div>
+
+        <div>
+            <img src="assets/iusb.JPG" width="200px"/>
+        </div>
+    </div>
+
+
+
+    <div *ngFor="let stage of statges">
+        <h2>{{stage.name}}</h2>
+        {{stage.target}}
+        <ul>
+            <li *ngFor="let module of stage.modules">{{module.name}}</li>
+
+        </ul>
+
+        <h3>Engineering</h3>
+        <ul>
+            <li>Blade based power delivery</li>
+        </ul>
+
+    </div>
+</div>

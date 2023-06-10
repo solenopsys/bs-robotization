@@ -19,19 +19,19 @@
   {
     "name": "Autonomous robotics drones & Autonomous power management",
     "target": "robots and drones",
-    "modules": [
-      "Drone Hub (12 IUSB)",
-      "accumulators controller",
-      "charging controller",
-      "ECS up to 1000w",
-      "WIFI",
-      "GPS",
-      "Ultrasonic",
-      "accelerometer"
+    "modules":[
+      {"name": "Drone Hub (12 IUSB)", "tags": []},
+      {"name": "accumulators controller", "tags": []},
+      {"name": "charging controller", "tags": []},
+      {"name": "ECS up to 1000w", "tags": []},
+      {"name": "WIFI", "tags": []},
+      {"name": "GPS", "tags": []},
+      {"name": "Ultrasonic", "tags": []},
+      {"name": "accelerometer", "tags": []}
     ]
   },
   {
-    "name": "",
+    "name": "3D printers ",
     "target": "3D printers (SLA)",
     "modules": [
       {"name": "Middle Hub (12 IUSB)", "tags": ["hub"]},
@@ -48,17 +48,18 @@
     "name": "Middle power robotics, (up to 10.000 watts)",
     "target": "Hi power industrial robots, CNC machines (lathe, milling)",
     "modules": [
-      "Stand By Power Supply module 10w",
-      "One Phase KKM to 400",
-      "There Phase KKM to 400",
-      "Filter Module One Phase (power control)",
-      "Filter Module Three Phase (power control)",
-      "Power Inverter 400 to 24/48/96",
-      "Capacitor Module",
-      "Encoder Sensor",
-      "Power Stepper Controller 24",
-      "Three phase servo motor controller 1000w"
+      {"name": "Stand By Power Supply module 10w", "tags": []},
+      {"name": "One Phase KKM to 400", "tags": []},
+      {"name": "There Phase KKM to 400", "tags": []},
+      {"name": "Filter Module One Phase (power control)", "tags": []},
+      {"name": "Filter Module Three Phase (power control)", "tags": []},
+      {"name": "Power Inverter 400 to 24/48/96", "tags": []},
+      {"name": "Capacitor Module", "tags": []},
+      {"name": "Encoder Sensor", "tags": []},
+      {"name": "Power Stepper Controller 24", "tags": []},
+      {"name": "Three phase servo motor controller 1000w", "tags": []}
     ]
+
   },
   {
     "name": "Industrial data processing && Data transmission",
