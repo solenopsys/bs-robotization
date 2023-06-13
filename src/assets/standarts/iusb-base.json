@@ -1,0 +1,104 @@
+{
+  "name": "iusb",
+  "type": "connector",
+  "spec": {
+    "pins": [
+      {
+        "id": "1",
+        "direction": "in"
+      },
+      {
+        "id": "2",
+        "direction": "out"
+      },
+      {
+        "id": "3",
+        "direction": "in"
+      },
+      {
+        "id": "4",
+        "direction": "out"
+      },
+      {
+        "id": "5",
+        "direction": "in"
+      },
+      {
+        "id": "6",
+        "direction": "out"
+      },
+      {
+        "id": "7",
+        "direction": "in"
+      },
+      {
+        "id": "8",
+        "direction": "out"
+      },
+      {
+        "id": "9",
+        "direction": "in"
+      },
+      {
+        "id": "10",
+        "direction": "out"
+      },
+      {
+        "id": "11",
+        "direction": "in"
+      },
+      {
+        "id": "12",
+        "direction": "out"
+      },
+      {
+        "id": "13",
+        "direction": "in"
+      },
+      {
+        "id": "14",
+        "direction": "out"
+      },
+      {
+        "id": "15",
+        "direction": "in"
+      },
+      {
+        "id": "16",
+        "direction": "out"
+      },
+      {
+        "id": "17",
+        "direction": "in"
+      },
+      {
+        "id": "18",
+        "direction": "out"
+      },
+      {
+        "id": "19",
+        "direction": "in"
+      },
+      {
+        "id": "20",
+        "direction": "out"
+      },
+      {
+        "id": "21",
+        "direction": "in"
+      },
+      {
+        "id": "22",
+        "direction": "out"
+      },
+      {
+        "id": "23",
+        "direction": "in"
+      },
+      {
+        "id": "24",
+        "direction": "out"
+      }
+    ]
+  }
+}

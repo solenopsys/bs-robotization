@@ -4,7 +4,7 @@
   "dependencies": {
   },
   "scripts": {
-    "test": "node index.js",
-    "build": "etsc"
+    "serve": "ng serve",
+    "build": "ng build"
   }
 }
