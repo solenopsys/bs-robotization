@@ -10,7 +10,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser-esbuild",
           "options": {
-            "outputPath": "../../../entrances/fronts/fr-website",
+            "outputPath": "../../../dist/fronts/fr-website",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "./src/polyfills.ts",
