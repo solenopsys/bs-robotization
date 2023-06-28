@@ -1,10 +1,12 @@
 {
   "name": "@solenopsys/fr-datasheets",
   "version": "0.1.1",
-  "dependencies": {
+  "devDependencies": {
+    "json-schema-to-typescript": "^13.0.2"
   },
   "scripts": {
     "serve": "ng serve",
-    "build": "ng build"
+    "build": "ng build",
+    "shema gen": "json-schema-to-typescript --no-top-ref src/assets/iusb-shema.json --out src/types.ts"
   }
 }

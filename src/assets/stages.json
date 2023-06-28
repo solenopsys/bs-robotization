@@ -1,6 +1,6 @@
 [
   {
-    "name": "Low power robotics (up to 100 watts)",
+    "name": "Low power robotics (up to 240 watts)",
     "target": "3D printers (FDM)",
     "modules": [
       {"name": "Minimal Hub (8 IUSB)", "tags": ["hub"]},
