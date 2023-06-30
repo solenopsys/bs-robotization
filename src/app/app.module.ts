@@ -16,21 +16,27 @@ import { AboutComponent } from './about/about.component';
 import { StructureComponent } from './structure/structure.component';
 import { TechnologyComponent } from './technology/technology.component';
 import { MicrofondsComponent } from './microfonds/microfonds.component';
+import { PcbGenComponent } from './pcb-gen/pcb-gen.component';
+import { HelperRenderComponent } from './helper-render/helper-render.component';
 
 export const appRoutes: Route[] = [
     {
         path: "",
-        redirectTo: "main",
+        redirectTo: "main/.",
         pathMatch: 'full'
     },
     {
-        path: "main",
+        path: "main/.",
         component: MainPageComponent,
     },
 
     {
-        path: "microfonds",
+        path: "microfonds/.",
         component: MicrofondsComponent,
+    },
+    {
+        path: "pcb",
+        component: PcbGenComponent,
     },
 
     // {
@@ -38,20 +44,20 @@ export const appRoutes: Route[] = [
     //     component: PromotionComponent,
     // },
     {
-        path: "stages",
+        path: "stages/.",
         component: StagesComponent,
     },
     {
-        path: "team",
+        path: "team/.",
         component: TeamComponent,
     },  {
-        path: "about",
+        path: "about/.",
         component: AboutComponent,
     }, {
-        path: "structure",
+        path: "structure/.",
         component: StructureComponent,
     }, {
-        path: "technology",
+        path: "technology/.",
         component: TechnologyComponent,
     },
     // {
@@ -82,7 +88,9 @@ export const appRoutes: Route[] = [
         AboutComponent,
         StructureComponent,
         TechnologyComponent,
-        MicrofondsComponent
+        MicrofondsComponent,
+        PcbGenComponent,
+        HelperRenderComponent
     ],
     providers: [],
     bootstrap: [AppComponent],
