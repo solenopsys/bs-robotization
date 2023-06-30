@@ -1,5 +1,4 @@
 import * as THREE from "three";
-import {drawM2} from "./hub-drawer";
 
 export function crateRenderer(width, height) {
     const renderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
