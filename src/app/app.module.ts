@@ -18,6 +18,7 @@ import { TechnologyComponent } from './technology/technology.component';
 import { MicrofondsComponent } from './microfonds/microfonds.component';
 import { PcbGenComponent } from './pcb-gen/pcb-gen.component';
 import { HelperRenderComponent } from './helper-render/helper-render.component';
+import { SystemDiagramComponent } from './system-diagram/system-diagram.component';
 
 export const appRoutes: Route[] = [
     {
@@ -25,6 +26,20 @@ export const appRoutes: Route[] = [
         redirectTo: "main/.",
         pathMatch: 'full'
     },
+    {
+        path: "main/.",
+        component: MainPageComponent,
+    },
+    // {
+    //     path: "sys",
+    //     redirectTo: "sys/.",
+    //     pathMatch: 'full'
+    // },
+    {
+        path: "sys",
+        component: HelperRenderComponent,
+    },
+
     {
         path: "main/.",
         component: MainPageComponent,
@@ -90,7 +105,8 @@ export const appRoutes: Route[] = [
         TechnologyComponent,
         MicrofondsComponent,
         PcbGenComponent,
-        HelperRenderComponent
+        HelperRenderComponent,
+        SystemDiagramComponent
     ],
     providers: [],
     bootstrap: [AppComponent],

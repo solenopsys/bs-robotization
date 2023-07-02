@@ -1,0 +1,30 @@
+{
+  "name": "Fdm 3d printer",
+  "modules": {
+    "standby": "./assets/arch/modules/standby.json",
+    "ems-filter": "./assets/arch/modules/ems-filter.json",
+    "kkm": "./assets/arch/modules/ems-filter.json",
+    "inverted400-48v": "./assets/arch/modules/inverter-400-48.json",
+    "hub": "./assets/arch/modules/hub8.json"
+  },
+  "instances": {
+    "hub1": "hub",
+    "standby1": "standby"
+  },
+  "connections": {
+    "hub1.idi_10": "standby1.idi",
+    "ac-1": "standby1.ac-1",
+    "ac-2": "standby1.ac-2"
+  },
+  "power": {
+    "smallVoltage": [
+      "48v"
+    ],
+    "largeVoltage": [
+      "ground",
+      "ac-1",
+      "ac-2",
+      "400v"
+    ]
+  }
+}

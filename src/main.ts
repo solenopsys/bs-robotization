@@ -1,5 +1,5 @@
 import {trailingSlash} from "@solenopsys/fl-globals";
 
-trailingSlash()
+//trailingSlash()
 
 import('./bootstrap').catch((err) => console.error(err));
