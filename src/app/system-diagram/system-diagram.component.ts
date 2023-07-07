@@ -1,10 +1,5 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {HubConfig} from "../pcb-gen/pcb-gen.component";
 import {HttpClient} from "@angular/common/http";
-import {firstValueFrom} from "rxjs";
-import {RENDERERS} from "./renderers";
-
-
 
 
 @Component({
@@ -27,9 +22,9 @@ export class SystemDiagramComponent implements OnInit {
     }
 
     ngAfterViewInit(): void {
-        this.cascadeLoad().then(() => {
-            this.render()
-        });
+        // this.cascadeLoad().then(() => {
+        //     this.render()
+        // });
     }
 
 
@@ -47,19 +42,19 @@ export class SystemDiagramComponent implements OnInit {
         canvas.width = 800;
         canvas.height = 800;
 
-        let instances = this.conf.instances;
-
-        for (let key in instances) {
-            let instance = instances[key];
-            let conf = this.modules[instance];
-            let type = conf['type'];
-            let renderer = RENDERERS[type];
-            if(renderer) {
-                renderer(context, conf);
-            }else {
-               console.log("No renderer for type: " + type)
-            }
-        }
+        // let instances = this.conf.instances;
+        //
+        // for (let key in instances) {
+        //     let instance = instances[key];
+        //     let conf = this.modules[instance];
+        //     let type = conf['type'];
+        //     let renderer = RENDERERS[type];
+        //     if(renderer) {
+        //         renderer(context, conf);
+        //     }else {
+        //        console.log("No renderer for type: " + type)
+        //     }
+        // }
 
 
 

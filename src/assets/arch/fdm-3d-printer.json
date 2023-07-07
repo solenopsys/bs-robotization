@@ -9,6 +9,7 @@
   },
   "instances": {
     "hub1": "hub",
+    "hub2": "hub",
     "standby1": "standby"
   },
   "connections": {
