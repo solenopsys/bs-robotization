@@ -21,6 +21,8 @@ export enum PowerLineType {
 
 export interface ModuleConf {
     len: ModuleSize
+    title: string
+    description: string
     width: number
     ioConnectors: { [key: string]: number }
     powerConnectors: string[]

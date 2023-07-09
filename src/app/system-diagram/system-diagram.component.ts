@@ -1,5 +1,15 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {diagramConfigToStream, RendererController} from "./renderers";
+import {transformData} from "./transformer";
+
+export interface DiagramConfig {
+    hubs: any[];
+    leftIdiModules: any[];
+    rightIdiModules: any[];
+    powerGroup: any[];
+}
+
 
 
 @Component({
@@ -13,20 +23,18 @@ export class SystemDiagramComponent implements OnInit {
 
 
     @Input()
-    configUrl: string
+    config: DiagramConfig
 
 
 
-    constructor(private http: HttpClient) {
-
-    }
 
     ngAfterViewInit(): void {
         // this.cascadeLoad().then(() => {
         //     this.render()
         // });
-    }
 
+        this.render();
+    }
 
 
     ngOnInit(): void {
@@ -35,27 +43,20 @@ export class SystemDiagramComponent implements OnInit {
 
     render() {
         const canvas = this.draw2DElement.nativeElement;
-        const context = canvas.getContext('2d');
 
-        const scale = 5
 
-        canvas.width = 800;
-        canvas.height = 800;
+        const scale = 20
 
-        // let instances = this.conf.instances;
-        //
-        // for (let key in instances) {
-        //     let instance = instances[key];
-        //     let conf = this.modules[instance];
-        //     let type = conf['type'];
-        //     let renderer = RENDERERS[type];
-        //     if(renderer) {
-        //         renderer(context, conf);
-        //     }else {
-        //        console.log("No renderer for type: " + type)
-        //     }
-        // }
+        const diagramConfig = transformData(this.config)
+        let events = diagramConfigToStream(diagramConfig);
 
+        console.log(events)
+
+        let rendererController = new RendererController(canvas, scale);
+
+        for (let event of events) {
+            rendererController.execute(event)
+        }
 
 
     }

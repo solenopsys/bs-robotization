@@ -9,7 +9,7 @@ export interface RectMin {
 }
 
 export interface Rect extends RectMin, Point {
-    color: string
+    color: string,
 }
 
 export interface Contact {
@@ -24,6 +24,8 @@ export interface Text {
     text: string,
     color: string,
     size: number,
+    vertical: boolean,
+    maxWidth: number,
 }
 
 export interface Line {

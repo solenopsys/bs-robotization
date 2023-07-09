@@ -19,6 +19,7 @@ import { MicrofondsComponent } from './microfonds/microfonds.component';
 import { PcbGenComponent } from './pcb-gen/pcb-gen.component';
 import { HelperRenderComponent } from './helper-render/helper-render.component';
 import { SystemDiagramComponent } from './system-diagram/system-diagram.component';
+import { CombinatoricsComponent } from './combinatorics/combinatorics.component';
 
 export const appRoutes: Route[] = [
     {
@@ -37,7 +38,7 @@ export const appRoutes: Route[] = [
     // },
     {
         path: "sys",
-        component: HelperRenderComponent,
+        component: CombinatoricsComponent,
     },
 
     {
@@ -106,7 +107,8 @@ export const appRoutes: Route[] = [
         MicrofondsComponent,
         PcbGenComponent,
         HelperRenderComponent,
-        SystemDiagramComponent
+        SystemDiagramComponent,
+        CombinatoricsComponent
     ],
     providers: [],
     bootstrap: [AppComponent],

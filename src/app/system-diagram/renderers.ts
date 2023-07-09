@@ -1,86 +1,180 @@
-import {Observable} from "rxjs";
-import {DiagramConfig, RendererEvent} from "./renderer-data";
+import {DiagramConfig, Rect, RendererEvent, Text} from "./renderer-data";
+
+
+export enum RenderersTypes {
+    Size = "size",
+    Rect = "rect",
+    Text = "text",
+    Line = "line",
+    Contact = "contact",
+}
 
 const BLOCK_SIZE = 60;
-//
-// interface Renderer {
-//     (context: CanvasRenderingContext2D, conf: any): void
-// }
-//
-// function renderRect(context: CanvasRenderingContext2D, conf: any) {
-//     context.fillStyle = 'blue';
-//     const startX = 10
-//     const startY = 400
-//     let sideCount = conf.sideCount;
-//     context.fillRect(startX, startY, BLOCK_SIZE * (sideCount + 1), BLOCK_SIZE);
-//     const pointSize = 10
-//     for (let n = 0; n < 2; n++) {
-//         for (let i = 0; i < sideCount; i++) {
-//             context.fillStyle = 'black';
-//             context.fillRect(startX + BLOCK_SIZE * (i + 1), startY + n * (BLOCK_SIZE - 10), pointSize, pointSize);
-//         }
-//     }
-// }
-//
-// function renderIDI(context: CanvasRenderingContext2D, conf: any) {
-//     console.log("TRY RENDER", conf)
-// }
-//
-// export const RENDERERS: { [key: string]: Renderer } = {
-//     "HUB": renderHub,
-//     "IDI": renderIDI
-// }
-//
-// class RendererController {
-//     conf: Config;
-//
-//     modules: { [key: string]: any } = {}
-//
-//     cordinates
-//
-//
-//     init() {
-//
-//     }
-// }
+
+interface Renderer {
+    execute(event: RendererEvent): void
 
 
-function diagramConfigToStream(config: DiagramConfig): Observable<RendererEvent> {
-    return new Observable<RendererEvent>(subscriber => {
-        subscriber.next({
-            type: "size",
-            conf: config.diagramSize
-        })
+}
 
-        config.lines.forEach(line => {
-            subscriber.next({
-                type: "line",
-                conf: line
-            })
-        })
+interface RendererContext {
+    getContext(): CanvasRenderingContext2D
 
-        config.modules.forEach(module => {
-            subscriber.next({
-                type: "module",
-                conf: module
-            })
-        })
+    getCanvas(): HTMLCanvasElement
+}
 
-        config.contacts.forEach(contact => {
-            subscriber.next({
-                type: "contact",
-                conf: contact
-            })
-        })
+interface ScaleContext {
+    getPixelInCell(): number
 
-        config.texts.forEach(text => {
-            subscriber.next({
-                type: "texts",
-                conf: text
-            })
-        })
+}
 
 
+abstract class BaseRenderer implements Renderer, RendererContext, ScaleContext {
+    private context: CanvasRenderingContext2D;
+
+
+    constructor(private canvas: HTMLCanvasElement, private pixelInCell: number) {
+
+        this.context = canvas.getContext('2d');
+    }
+
+    getCanvas(): HTMLCanvasElement {
+        return this.canvas;
+    }
+
+
+    getContext(): CanvasRenderingContext2D {
+        return this.context;
+    }
+
+    getPixelInCell(): number {
+        return this.pixelInCell;
+    }
+
+    abstract execute(event: RendererEvent): void;
+}
+
+class BaseRendererImpl extends BaseRenderer {
+    execute(event: RendererEvent): void {
+    }
+
+
+}
+
+class RenderRect extends BaseRenderer {
+
+    execute(event: RendererEvent) {
+        const rect: Rect = event.conf
+        this.getContext().fillStyle = rect.color;
+
+        let scale = this.getPixelInCell();
+        this.getContext().fillRect(rect.x * scale, rect.y * scale, rect.width * scale, rect.height * scale);
+    }
+}
+
+class RenderText extends BaseRenderer {
+
+    execute(event: RendererEvent) {
+        let scale = this.getPixelInCell();
+        const txData: Text = event.conf
+        let ctx = this.getContext();
+        ctx.fillStyle = txData.color;
+
+        let x1 = txData.point.x * scale;
+        let y1 = txData.point.y * scale;
+        if (txData.vertical) {
+            ctx.save();
+            ctx.translate(x1, y1);
+            ctx.rotate(Math.PI / 2);
+            ctx.translate(-x1, -y1);
+
+            // ctx.textAlign = "center";
+            // ctx.textBaseline = "bottom";
+            ctx.font = txData.size + "px Arial";
+            ctx.fillText(txData.text, x1,y1, txData.maxWidth * scale);
+            ctx.restore();
+        } else {
+            ctx.font = txData.size + "px Arial";
+            ctx.fillText(txData.text, x1, txData.point.y * scale, txData.maxWidth * scale);
+        }
+
+
+    }
+}
+
+class SetSizeCanvas extends BaseRenderer {
+
+    execute(event: RendererEvent) {
+        this.getCanvas().width = event.conf.width * this.getPixelInCell();
+        this.getCanvas().height = event.conf.height * this.getPixelInCell();
+    }
+}
+
+
+export class RendererController implements Renderer {
+    renderersMap: { [key: string]: Renderer } = {}
+
+    constructor(private canvas: HTMLCanvasElement, private pixelInCell: number) {
+        this.registerRenderer(RenderersTypes.Rect, RenderRect)
+        this.registerRenderer(RenderersTypes.Size, SetSizeCanvas)
+        this.registerRenderer(RenderersTypes.Text, RenderText)
+    }
+
+    public registerRenderer(key: string, renderer: typeof BaseRenderer) {
+        // @ts-ignore
+        this.renderersMap[key] = new renderer(this.canvas, this.pixelInCell);
+    }
+
+    execute(conf: RendererEvent): void {
+        let renderer = this.renderersMap[conf.type];
+        if (renderer) {
+            renderer.execute(conf);
+        } else {
+            console.log("No renderer for type: " + conf.type)
+        }
+    }
+}
+
+
+export function diagramConfigToStream(config: DiagramConfig): RendererEvent[] {
+    const events = []
+
+
+    events.push({
+        type: "size",
+        conf: config.diagramSize
     })
+
+    config.lines.forEach(line => {
+        events.push({
+            type: "line",
+            conf: line
+        })
+    })
+
+    config.modules.forEach(module => {
+        events.push({
+            type: "rect",
+            conf: module
+        })
+    })
+
+    config.contacts.forEach(contact => {
+        events.push({
+            type: "contact",
+            conf: contact
+        })
+    })
+
+    config.texts.forEach(text => {
+        events.push({
+            type: "text",
+            conf: text
+        })
+    })
+
+
+    return events;
+
 
 }

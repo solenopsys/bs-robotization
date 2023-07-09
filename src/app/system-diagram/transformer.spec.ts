@@ -16,6 +16,8 @@ describe('Diagram test', () => {
                 ioConnectors: {
                     "UIC": 1,
                 },
+                title: "Inverter",
+                description: "Converts 400 volts to 48 volts",
                 powerConnectors: ["25v"]
             }
         ];
@@ -27,6 +29,8 @@ describe('Diagram test', () => {
                     "UIC1": 1,
                     "UIC2": 1,
                 },
+                title: "UIC Adapter",
+                description: "Covert IDI interface to 2 UIC interface   power module solution",
                 powerConnectors: ["40v"]
                 ,
             }];
@@ -69,7 +73,7 @@ describe('Diagram test', () => {
     it('should correct diagram size', () => {
         let size = diagramConfig.diagramSize;
         expect(size.width).toBe(28);
-        expect(size.height).toBe(6 * 2 + 5 * 4 + 4 * 2);
+        expect(size.height).toBe(6 * 2 + 5 * 4 + 4 * 2 + 4);
     });
 
     it('should correct coordinates X', () => {
@@ -83,10 +87,31 @@ describe('Diagram test', () => {
     it('should correct coordinates Y', () => {
         let modules = diagramConfig.modules;
         expect(modules[0].y).toBe(6);
-        expect(modules[1].y).toBe(16);
+        expect(modules[1].y).toBe(18);
         expect(modules[2].y).toBe(6);
         expect(modules[3].y).toBe(6);
     });
 
+    it('should correct text count', () => {
+        let texts = diagramConfig.texts;
+        expect(texts.length).toBe(4);
+    });
+
+
+    it('should correct text X', () => {
+        let texts = diagramConfig.texts;
+        expect(texts[0].point.x).toBe(19);
+        expect(texts[1].point.x).toBe(19);
+        expect(texts[2].point.x).toBe(7);
+        expect(texts[3].point.x).toBe(23);
+    });
+
+    it('should correct text Y', () => {
+        let texts = diagramConfig.texts;
+        expect(texts[0].point.y).toBe(6+1);
+        expect(texts[1].point.y).toBe(18+1);
+        expect(texts[2].point.y).toBe(6+1);
+        expect(texts[3].point.y).toBe(6+1);
+    });
 
 });
