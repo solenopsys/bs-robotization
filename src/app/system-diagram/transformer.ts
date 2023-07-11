@@ -1,5 +1,5 @@
 import {BladeConfig, HubConf, ModuleConf} from "./diagram-data";
-import {DiagramConfig, Rect, Text} from "./renderer-data";
+import {Contact, DiagramConfig, Rect, Text} from "./renderer-data";
 
 const moduleColor: string = "#D9D9D9";
 
@@ -53,22 +53,33 @@ function findMaxWidth(modules: ModuleConf[]): number {
     return mx;
 }
 
-function genText(rect: Rect, text: string, fontSize: number, vertical, description: boolean,oneLine:boolean): Text {
-    let descr = description ? 1 : 0;
-    let mWidth = rect.width - 2;
-    let mHeight = rect.height - 2;
+enum TextType {
+    TITLE,
+    DESCRIPTION,
+    CONTACT,
+}
+
+function genText(rect: Rect, text: string, fontSize: number, vertical, type: TextType): Text {
+    const PADD=1;
+    let descr = type===TextType.DESCRIPTION? PADD : 0;
+    let padding = type===TextType.CONTACT ? 0 : PADD*2;
+    let mWidth = rect.width - padding;
+    let mHeight = rect.height - padding;
     return {
-        point: {
-            x: rect.x + (vertical ? 3-descr: 1),
-            y: rect.y + 1+(vertical ? 0: descr)  ,
+        point: type===TextType.CONTACT? {
+            x: rect.x ,
+            y: rect.y,
+        }: {
+            x: rect.x + (vertical ? 3 - descr : PADD),
+            y: rect.y + 1 + (vertical ? 0 : descr),
         },
         color: "black",
         text,
         size: fontSize,
         vertical,
         bold: !descr,
-        maxWidth: vertical?mHeight:mWidth,
-        maxHeight: vertical?mWidth:mHeight,
+        maxWidth: vertical ? mHeight : mWidth,
+        maxHeight: vertical ? mWidth : mHeight,
     };
 }
 
@@ -76,6 +87,7 @@ export function transformData(conf: BladeConfig): DiagramConfig {
 
     let modules: Rect[] = [];
     let texts: Text[] = [];
+    let contacts: Contact[] = [];
 
     const leftMax = findMaxWidth(conf.leftIdiModules);
     const rightMax = findMaxWidth(conf.rightIdiModules);
@@ -86,15 +98,6 @@ export function transformData(conf: BladeConfig): DiagramConfig {
 
     const fontSize = 10;
 
-    conf.hubs.forEach((hub, index) => {
-        let rect = hubTransform(hub, xHub, PADDING + hubsHeight);
-        modules.push(rect);
-        hubsHeight += rect.height + STANDARD_GAP;
-        hubsCount++;
-
-        texts.push(genText(rect, hub.title, fontSize+2, true, false,false))
-        texts.push(genText(rect, hub.description, fontSize, true, true,false))
-    });
 
     let leftY = PADDING;
     conf.leftIdiModules.forEach((mod) => {
@@ -102,9 +105,8 @@ export function transformData(conf: BladeConfig): DiagramConfig {
             let rect = mod ? modTransform(mod, xHub, leftY, false) : null;
             leftY = leftY + rect.height + STANDARD_GAP;
             modules.push(rect);
-            texts.push(genText(rect, mod.title, fontSize+2, false, false,false))
-            texts.push(genText(rect, mod.description, fontSize, false, true,false))
-
+            texts.push(genText(rect, mod.title, fontSize + 2, false, TextType.TITLE))
+            texts.push(genText(rect, mod.description, fontSize, false, TextType.DESCRIPTION))
         } else {
             leftY = leftY + STANDARD_WIDTH + STANDARD_GAP;
         }
@@ -118,12 +120,62 @@ export function transformData(conf: BladeConfig): DiagramConfig {
             rightY = rightY + rect.height + STANDARD_GAP;
             modules.push(rect);
 
-            texts.push(genText(rect, mod.title, fontSize+2, false, false,false))
-            texts.push(genText(rect, mod.description, fontSize, false, true,false))
+            texts.push(genText(rect, mod.title, fontSize + 2, false, TextType.TITLE))
+            texts.push(genText(rect, mod.description, fontSize, false, TextType.DESCRIPTION))
         } else {
             rightY = rightY + STANDARD_WIDTH + STANDARD_GAP;
         }
     });
+
+    conf.hubs.forEach((hub, index) => {
+        let rect = hubTransform(hub, xHub, PADDING + hubsHeight);
+        modules.push(rect);
+
+
+        for (let i = 0; i < hub.sideConnectors; i++) {
+            const xPos = rect.x - 2
+            const yPos: number = rect.y + i * (STANDARD_WIDTH + STANDARD_GAP) - STANDARD_WIDTH + PADDING - 0.5;
+
+            const leftPoint: Contact = {
+                first: {
+                    x: xPos,
+                    y: yPos
+                },
+                second: {
+                    x: xPos + STANDARD_GAP,
+                    y: yPos
+                },
+                firstArrow: true,
+                secondArrow: true,
+            };
+            contacts.push(leftPoint)
+           // texts.push(genText(rect, "blabla", fontSize , false, TextType.CONTACT))
+
+
+            const rightPoint: Contact = {
+                first: {
+                    x: xPos + STANDARD_WIDTH + STANDARD_GAP,
+                    y: yPos
+                },
+                second: {
+                    x: xPos + STANDARD_GAP + STANDARD_WIDTH + STANDARD_GAP,
+                    y: yPos
+                },
+                firstArrow: true,
+                secondArrow: true,
+            };
+            contacts.push(rightPoint)
+
+        }
+
+
+        hubsHeight += rect.height + STANDARD_GAP;
+        hubsCount++;
+
+        texts.push(genText(rect, hub.title, fontSize + 2, true, TextType.TITLE))
+        texts.push(genText(rect, hub.description, fontSize, true, TextType.DESCRIPTION))
+    });
+
 
     return {
         diagramSize: {
@@ -132,7 +184,7 @@ export function transformData(conf: BladeConfig): DiagramConfig {
         },
         modules,
         lines: [],
-        contacts: [],
+        contacts,
         texts
     }
 }

@@ -13,10 +13,10 @@ export interface Rect extends RectMin, Point {
 }
 
 export interface Contact {
-    left: true,
-    right: true,
-    width: number,
-    vertical: true,
+    firstArrow: boolean,
+    secondArrow: boolean,
+    first:Point,
+    second:Point,
 }
 
 export interface Text {

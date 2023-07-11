@@ -20,13 +20,13 @@ interface GenFunction<T> {
     (conf: T): THREE.Group;
 }
 
-export function genGroup(count: number): THREE.Group {
+export function genGroup(count: number, scale: number, width: number, height: number,deep:number): THREE.Group {
     const group = new THREE.Group();
     const material = new THREE.MeshBasicMaterial({color: 0x000000});
     const conf: IC = {
-        width: 15,
-        height: 15,
-        deep: 2,
+        width: scale * width,
+        height: scale * height,
+        deep: deep* scale,
         material: material
     }
 

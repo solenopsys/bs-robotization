@@ -28,7 +28,6 @@ export class PcbGenComponent implements AfterViewInit {
     @ViewChild("3dDraw", {static: true})
     drawElement!: ElementRef<HTMLCanvasElement>;
 
-    camera: THREE.Camera;
     scene: THREE.Scene;
 
     @Input()
@@ -53,29 +52,40 @@ export class PcbGenComponent implements AfterViewInit {
     }
 
 
-
-
     renderInit() {
         let startX = -this.size.width / 2;
         let startY = this.size.height / -2;
 
-
+        let camera;
         if (this.cameraType == "front") {
-            this.camera = new THREE.OrthographicCamera(this.size.width / 2, startX, startY, this.size.height / 2, 1, 1000);
-            this.camera.position.set(0, 0, -10);
-            this.camera.lookAt(0, 0, 0);
+
+             camera = new THREE.OrthographicCamera(this.size.width / 2, startX, startY, this.size.height / 2, 1, 1000);
+            camera.position.set(0, 0, -10);
+            camera.lookAt(0, 0, 0);
 
         }
 
         if (this.cameraType == "perspective") {
-            this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 500);
-            this.camera.position.set(0, 0, -500);
-            this.camera.lookAt(5, 10, 1);
+            camera = new THREE.PerspectiveCamera(50,
+                window.innerWidth / window.innerHeight, 0.7, 500);
+            camera.position.set(0, 0, -500);
+            camera.lookAt(0, 0, 1);
 
-            const controls = new OrbitControls(this.camera, this.renderer.domElement);
-            controls.enableDamping = true;
-            controls.dampingFactor = 0.25;
-            controls.enableZoom = true;
+            // const controls = new OrbitControls(camera, this.renderer.domElement);
+            // controls.enableDamping = true;
+            // controls.dampingFactor = 0.25;
+            // controls.enableZoom = true;
+
+            // var aspectRatio = window.innerWidth / window.innerHeight,
+            //     fieldOfView = 50,
+            //     nearPlane =  0.2,
+            //     farPlane = 500;
+            //  camera = new THREE.PerspectiveCamera(
+            //     fieldOfView,
+            //     aspectRatio,
+            //     nearPlane,
+            //     farPlane
+            // );
         }
 
         this.scene = createScene();
@@ -84,7 +94,7 @@ export class PcbGenComponent implements AfterViewInit {
         group.position.y = -this.size.height / 2;
         this.scene.add(group)
 
-        let group2 = genGroup(10);
+        let group2 = genGroup(1, this.scale, 15, 15, 2);
         group2.position.y += 2;
 
         this.scene.add(group2)
@@ -108,11 +118,11 @@ export class PcbGenComponent implements AfterViewInit {
         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 
-        this.animate();
+        this.animate(camera as THREE.Camera);
     }
 
 
-    animate() {
-        this.renderer.render(this.scene, this.camera);
+    animate(camera) {
+        this.renderer.render(this.scene, camera);
     }
 }

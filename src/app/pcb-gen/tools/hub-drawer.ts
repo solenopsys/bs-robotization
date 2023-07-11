@@ -18,7 +18,7 @@ export function shapeMacros(config: HubConfig, scale: number): THREE.Mesh {
     const halfCircle = config.connectorsBySide;
 
     const extrudeSettings = {
-        depth: 2,
+        depth: 20 * scale,
         steps: 2
     };
 

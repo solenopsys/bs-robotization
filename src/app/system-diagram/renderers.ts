@@ -1,4 +1,4 @@
-import {DiagramConfig, Rect, RendererEvent, Text} from "./renderer-data";
+import {DiagramConfig, Rect, RendererEvent, Contact, Text} from "./renderer-data";
 import canvasTxt from 'canvas-txt'
 
 
@@ -73,6 +73,64 @@ class RenderRect extends BaseRenderer {
     }
 }
 
+class RenderContact extends BaseRenderer {
+
+    execute(event: RendererEvent) {
+        console.log("OK contact", event)
+        const contact: Contact = event.conf
+        let context = this.getContext();
+        context.fillStyle = "black";
+
+        let scale = this.getPixelInCell();
+
+
+// Define the polygon vertices
+        const startPoint = {x: contact.first.x * scale, y: contact.first.y * scale}
+        const endPoint = {x: contact.second.x * scale, y: contact.second.y * scale}
+
+        const topPoints = [
+            startPoint,
+            endPoint
+        ]
+        const bottomPoints = [
+            {x: endPoint.x, y: endPoint.y + scale},
+            {x: startPoint.x, y: startPoint.y + scale}]
+
+        let rightArrow =  contact.second?[{x: endPoint.x + scale / 2, y: endPoint.y + scale / 2}]:[];
+        let leftArrow = contact.first?[{x: startPoint.x - scale / 2, y: startPoint.y + scale / 2}]:[];
+        var vertices = [
+            ...topPoints,
+           ...rightArrow,
+            ...bottomPoints,
+            ...leftArrow
+        ];
+
+
+        context.beginPath();
+
+
+        context.moveTo(vertices[0].x, vertices[0].y);
+
+
+        for (var i = 1; i < vertices.length; i++) {
+            context.lineTo(vertices[i].x, vertices[i].y);
+        }
+
+
+        context.closePath();
+
+
+        context.strokeStyle = "white";
+        context.fillStyle = "blue";
+
+
+        context.stroke();
+        context.fill();
+
+
+    }
+}
+
 class RenderText extends BaseRenderer {
 
     execute(event: RendererEvent) {
@@ -93,7 +151,7 @@ class RenderText extends BaseRenderer {
         canvasTxt.align = 'left'
         canvasTxt.vAlign = 'top'
         canvasTxt.lineHeight = txData.size
-      //  canvasTxt.debug = true
+        canvasTxt.debug = false
         canvasTxt.justify = false
         if (txData.vertical) {
             ctx.save();
@@ -124,6 +182,7 @@ export class RendererController implements Renderer {
         this.registerRenderer(RenderersTypes.Rect, RenderRect)
         this.registerRenderer(RenderersTypes.Size, SetSizeCanvas)
         this.registerRenderer(RenderersTypes.Text, RenderText)
+        this.registerRenderer(RenderersTypes.Contact, RenderContact)
     }
 
     public registerRenderer(key: string, renderer: typeof BaseRenderer) {
