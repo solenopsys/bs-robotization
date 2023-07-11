@@ -6,8 +6,10 @@ describe('Diagram test', () => {
     let diagramConfig: DiagramConfig;
     beforeEach(() => {
         let hubs = [
-            {sideConnectors: 2, skip: [1]},
-            {sideConnectors: 3, skip: []}];
+            {sideConnectors: 2, skip: [1],  title: "Hub1",
+                description: "Description 1",},
+            {sideConnectors: 3, skip: [],  title: "Hub2",
+                description: "Description 2",}];
 
         let leftIdiModules: ModuleConf[] = [
             {

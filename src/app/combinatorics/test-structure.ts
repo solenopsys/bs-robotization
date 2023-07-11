@@ -1,8 +1,8 @@
 import {BladeConfig, ModuleConf, ModuleSize} from "../system-diagram/diagram-data";
 
 const hubs = [
-    {sideConnectors: 2, skip: [1]},
-    {sideConnectors: 4, skip: []}];
+    {sideConnectors: 2, skip: [1],title: "Hub 1", description: "Hub 1 description"},
+    {sideConnectors: 4, skip: [],title: "Hub 2", description: "Hub 2 description"}];
 
 const leftIdiModules: ModuleConf[] = [
     {
@@ -56,7 +56,7 @@ const rightIdiModules: ModuleConf[] = [
         powerConnectors: ["40v"]
         ,
         title: "Inverter",
-        description: "Converts 400 volts to 48 volts",
+        description: "Download a platform to simplify the development of your projects. Download a platform to simplify the development of your projects.",
     },
     {
         len: ModuleSize.Large,

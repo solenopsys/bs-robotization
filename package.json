@@ -8,5 +8,10 @@
     "serve": "ng serve",
     "build": "ng build",
     "shema gen": "json-schema-to-typescript --no-top-ref src/assets/iusb-shema.json --out src/types.ts"
+  },
+  "dependencies": {
+    "canvas-txt": "^3.0.0",
+    "@types/three": "^0.153.0",
+    "three": "^0.153.0"
   }
 }

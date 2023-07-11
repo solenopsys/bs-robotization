@@ -1,5 +1,4 @@
 import {Component, ElementRef, Input, ViewChild} from '@angular/core';
-import {HubConfig} from "../pcb-gen/pcb-gen.component";
 
 
 @Component({

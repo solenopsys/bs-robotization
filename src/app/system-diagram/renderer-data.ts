@@ -26,6 +26,8 @@ export interface Text {
     size: number,
     vertical: boolean,
     maxWidth: number,
+    maxHeight: number,
+    bold:boolean
 }
 
 export interface Line {

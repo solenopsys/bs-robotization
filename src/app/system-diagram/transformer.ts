@@ -53,17 +53,22 @@ function findMaxWidth(modules: ModuleConf[]): number {
     return mx;
 }
 
-function genText(rect: Rect, fontSize: number, vertical = false, text: string): Text {
+function genText(rect: Rect, text: string, fontSize: number, vertical, description: boolean,oneLine:boolean): Text {
+    let descr = description ? 1 : 0;
+    let mWidth = rect.width - 2;
+    let mHeight = rect.height - 2;
     return {
         point: {
-            x: rect.x + (vertical ? 3 : 1),
-            y: rect.y + 1,
+            x: rect.x + (vertical ? 3-descr: 1),
+            y: rect.y + 1+(vertical ? 0: descr)  ,
         },
         color: "black",
         text,
         size: fontSize,
         vertical,
-        maxWidth: rect.width - 2,
+        bold: !descr,
+        maxWidth: vertical?mHeight:mWidth,
+        maxHeight: vertical?mWidth:mHeight,
     };
 }
 
@@ -79,7 +84,7 @@ export function transformData(conf: BladeConfig): DiagramConfig {
 
     let xHub = leftMax + PADDING + STANDARD_GAP;
 
-    const fontSize = 12;
+    const fontSize = 10;
 
     conf.hubs.forEach((hub, index) => {
         let rect = hubTransform(hub, xHub, PADDING + hubsHeight);
@@ -87,9 +92,8 @@ export function transformData(conf: BladeConfig): DiagramConfig {
         hubsHeight += rect.height + STANDARD_GAP;
         hubsCount++;
 
-        texts.push(
-            genText(rect, fontSize, true,"bdsfa")
-        )
+        texts.push(genText(rect, hub.title, fontSize+2, true, false,false))
+        texts.push(genText(rect, hub.description, fontSize, true, true,false))
     });
 
     let leftY = PADDING;
@@ -98,9 +102,9 @@ export function transformData(conf: BladeConfig): DiagramConfig {
             let rect = mod ? modTransform(mod, xHub, leftY, false) : null;
             leftY = leftY + rect.height + STANDARD_GAP;
             modules.push(rect);
-            texts.push(
-                genText(rect, fontSize,false, mod.title)
-            )
+            texts.push(genText(rect, mod.title, fontSize+2, false, false,false))
+            texts.push(genText(rect, mod.description, fontSize, false, true,false))
+
         } else {
             leftY = leftY + STANDARD_WIDTH + STANDARD_GAP;
         }
@@ -114,9 +118,8 @@ export function transformData(conf: BladeConfig): DiagramConfig {
             rightY = rightY + rect.height + STANDARD_GAP;
             modules.push(rect);
 
-            texts.push(
-                genText(rect, fontSize,false, mod.title)
-            )
+            texts.push(genText(rect, mod.title, fontSize+2, false, false,false))
+            texts.push(genText(rect, mod.description, fontSize, false, true,false))
         } else {
             rightY = rightY + STANDARD_WIDTH + STANDARD_GAP;
         }

@@ -1,4 +1,9 @@
-export interface HubConf {
+export interface Titles {
+    title: string
+    description: string
+}
+
+export interface HubConf extends Titles{
     sideConnectors: number
     skip: number[]
 }
@@ -19,10 +24,9 @@ export enum PowerLineType {
     Sheet = "SHEET", // large power
 }
 
-export interface ModuleConf {
+export interface ModuleConf extends Titles{
     len: ModuleSize
-    title: string
-    description: string
+
     width: number
     ioConnectors: { [key: string]: number }
     powerConnectors: string[]

@@ -1,22 +1,22 @@
 import {AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/core';
-import {crateRenderer} from "./three-conf";
 import * as THREE from "three";
+import {RGBELoader} from "three/examples/jsm/loaders/RGBELoader";
+
+
 import {
-    CONNECTOR_WIDTH,
-    drawConnector, DrawFunction,
-    drawLine, HUB_HEIGHT,
+    generateHub,
+    HubConfig,
     M2_HEIGHT,
     M2_PADDING,
-    M2Drawer,
+    M2_PIN_HEIGHT,
     pcbSize,
-    pinArray
-} from "./hub-drawer";
+    pinsMacros,
+    shapeMacros
+} from "./tools/hub-drawer";
 import {createScene} from "./scene";
-
-export interface HubConfig {
-    connectorsBySide: number,
-    skip: number[],
-}
+import {genGroup} from "./tools/flat-gen";
+import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
+import {crateRenderer} from "./renderer";
 
 
 @Component({
@@ -28,8 +28,13 @@ export class PcbGenComponent implements AfterViewInit {
     @ViewChild("3dDraw", {static: true})
     drawElement!: ElementRef<HTMLCanvasElement>;
 
+    camera: THREE.Camera;
+    scene: THREE.Scene;
+
     @Input()
     config: HubConfig
+    @Input()
+    cameraType = "front";
 
 
     renderer: THREE.WebGLRenderer;
@@ -44,96 +49,70 @@ export class PcbGenComponent implements AfterViewInit {
 
         this.drawElement.nativeElement.appendChild(this.renderer.domElement);
 
-        this.render()
-    }
-
-    shapeMacros(scene) {
-        let startX = -this.size.width / 2;
-        let startY = this.size.height / -2 + M2_HEIGHT * this.scale;
-        const halfCircle: CanvasRenderingContext2D = new THREE.Shape();
-
-        const extrudeSettings = {
-            depth: 2,
-            steps: 2
-        };
-
-
-        const d = new M2Drawer(this.config.connectorsBySide, this.scale, this.config.skip, drawLine, drawConnector)
-        d.drawPath(halfCircle, 0, 0)
-
-
-        const geometry = new THREE.ExtrudeGeometry(halfCircle, extrudeSettings);
-
-        const material = new THREE.MeshBasicMaterial({color: 0x00aa00});
-
-
-        const shape = new THREE.Mesh(geometry, material);
-        shape.position.x = startX;
-        shape.position.y = startY;
-
-
-        scene.add(shape);
-    }
-
-     isSkip(n: number) {
-        return this.config.skip.some(d => d == n)
-    }
-
-    pinsMacros(scene) {
-        let startX = -this.size.width / 2 + M2_PADDING * this.scale;
-        let startY = this.size.height / -2
-        const context: CanvasRenderingContext2D = new THREE.Shape();
-
-        const extrudeSettings = {
-            depth: 4,
-            steps: 2,
-        }
-
-
-        const height = 3 * this.scale;
-        const width = 0.35 * this.scale;
-
-        context.moveTo(0, 0)
-        context.lineTo(0, height)
-        context.lineTo(width, height)
-        context.lineTo(width, 0)
-        context.lineTo(0, 0);
-
-        const geometry = new THREE.ExtrudeGeometry(context, extrudeSettings);
-
-        const connectorWidth = CONNECTOR_WIDTH * this.scale
-        const hubHeight = HUB_HEIGHT * this.scale;
-
-
-        let n = 0;
-        for (let i = 0; i < this.config.connectorsBySide; i++) {
-            n++
-            if(!this.isSkip(n))
-                pinArray(geometry, scene, startX + connectorWidth * i, startY, this.scale)
-
-        }
-
-        for (let i = 0; i < this.config.connectorsBySide; i++) {
-            n++
-            let pos = connectorWidth * (this.config.connectorsBySide - i) - M2_PADDING * this.scale * 2;
-            if(!this.isSkip(n))
-                pinArray(geometry, scene, startX + pos-1, startY + hubHeight+5*this.scale, -1 * this.scale)
-        }
+        this.renderInit()
     }
 
 
-    render() {
+
+
+    renderInit() {
         let startX = -this.size.width / 2;
         let startY = this.size.height / -2;
-        const camera = new THREE.OrthographicCamera(this.size.width / 2, startX, startY, this.size.height / 2, 1, 1000);
-        camera.position.set(0, 0, -10); // Position the camera on the opposite side (-10 units along the z-axis)
-        camera.lookAt(0, 0, 0); // Make the camera look at the origin (0, 0, 0)
-
-        const scene = createScene();
-        this.pinsMacros(scene);
-        this.shapeMacros(scene);
 
 
-        this.renderer.render(scene, camera);
+        if (this.cameraType == "front") {
+            this.camera = new THREE.OrthographicCamera(this.size.width / 2, startX, startY, this.size.height / 2, 1, 1000);
+            this.camera.position.set(0, 0, -10);
+            this.camera.lookAt(0, 0, 0);
+
+        }
+
+        if (this.cameraType == "perspective") {
+            this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 500);
+            this.camera.position.set(0, 0, -500);
+            this.camera.lookAt(5, 10, 1);
+
+            const controls = new OrbitControls(this.camera, this.renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.25;
+            controls.enableZoom = true;
+        }
+
+        this.scene = createScene();
+        const group = generateHub(this.config, this.scale);
+        group.position.x = -this.size.width / 2;
+        group.position.y = -this.size.height / 2;
+        this.scene.add(group)
+
+        let group2 = genGroup(10);
+        group2.position.y += 2;
+
+        this.scene.add(group2)
+
+        new RGBELoader()
+            .setPath('/assets/hdr/')
+            .load('skylit_garage_1k.hdr', function (texture) {
+
+                texture.mapping = THREE.EquirectangularReflectionMapping;
+
+                //   scene.background = texture;
+                //this.scene.environment = texture;
+            });
+
+
+        this.renderer.useLegacyLights = false;
+        this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        this.renderer.toneMappingExposure = 1;
+
+        this.renderer.shadowMapEnabled = true;
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+
+        this.animate();
+    }
+
+
+    animate() {
+        this.renderer.render(this.scene, this.camera);
     }
 }

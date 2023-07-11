@@ -1,4 +1,5 @@
 import {DiagramConfig, Rect, RendererEvent, Text} from "./renderer-data";
+import canvasTxt from 'canvas-txt'
 
 
 export enum RenderersTypes {
@@ -79,26 +80,31 @@ class RenderText extends BaseRenderer {
         const txData: Text = event.conf
         let ctx = this.getContext();
         ctx.fillStyle = txData.color;
+        ctx.imageSmoothingEnabled = true;
+
 
         let x1 = txData.point.x * scale;
         let y1 = txData.point.y * scale;
+        let scaleWidth = txData.maxWidth * scale
+        canvasTxt.fontWeight = txData.bold ? "bold" : "normal";
+
+        canvasTxt.font = "sans-serif"
+        canvasTxt.fontSize = txData.size
+        canvasTxt.align = 'left'
+        canvasTxt.vAlign = 'top'
+        canvasTxt.lineHeight = txData.size
+      //  canvasTxt.debug = true
+        canvasTxt.justify = false
         if (txData.vertical) {
             ctx.save();
             ctx.translate(x1, y1);
             ctx.rotate(Math.PI / 2);
             ctx.translate(-x1, -y1);
-
-            // ctx.textAlign = "center";
-            // ctx.textBaseline = "bottom";
-            ctx.font = txData.size + "px Arial";
-            ctx.fillText(txData.text, x1,y1, txData.maxWidth * scale);
+            canvasTxt.drawText(ctx, txData.text, x1, y1, scaleWidth, 1000) // todo remove hardcode height
             ctx.restore();
         } else {
-            ctx.font = txData.size + "px Arial";
-            ctx.fillText(txData.text, x1, txData.point.y * scale, txData.maxWidth * scale);
+            canvasTxt.drawText(ctx, txData.text, x1, y1, scaleWidth, 1000) // todo remove hardcode height
         }
-
-
     }
 }
 
