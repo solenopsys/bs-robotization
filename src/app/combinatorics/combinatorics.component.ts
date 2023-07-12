@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {BC} from "./test-structure";
 import {HttpClient} from "@angular/common/http";
-import {cascadeLoad} from "../system-diagram/loader";
+import {cascadeLoad} from "../system-diagram/refactoring/old/loader";
 
 @Component({
   selector: 'combinatorics',

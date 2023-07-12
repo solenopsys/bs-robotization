@@ -3,9 +3,45 @@ export interface Titles {
     description: string
 }
 
+
 export interface HubConf extends Titles{
     sideConnectors: number
     skip: number[]
+}
+
+export interface ContactConf {
+    firstArrow: boolean,
+    secondArrow: boolean,
+    width:number,
+}
+
+export interface TextConf {
+    text: string,
+    color: string,
+    size: number,
+    maxWidth: number,
+    maxHeight: number,
+    bold:boolean
+}
+
+
+export interface Point {
+    x: number,
+    y: number,
+}
+
+export interface RectMin {
+    width: number,
+    height: number,
+}
+
+export interface RectConf extends RectMin, Point {
+    color: string,
+}
+
+
+export interface PolygonConf{
+    points: Point[]
 }
 
 export enum ModuleSize {
@@ -24,22 +60,4 @@ export enum PowerLineType {
     Sheet = "SHEET", // large power
 }
 
-export interface ModuleConf extends Titles{
-    len: ModuleSize
 
-    width: number
-    ioConnectors: { [key: string]: number }
-    powerConnectors: string[]
-}
-
-export interface PowerLine {
-    name: string,
-    type: PowerLineType,
-}
-
-export interface BladeConfig {
-    hubs: HubConf[]
-    leftIdiModules: ModuleConf[]
-    rightIdiModules: ModuleConf[]
-    powerGroup: string[][]
-}

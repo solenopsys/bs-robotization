@@ -1,7 +1,6 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {diagramConfigToStream, RendererController} from "./renderers";
-import {transformData} from "./transformer";
+import {DiagramLayout} from "./refactoring/layout";
+import {BASE_THEME} from "./refactoring/config";
 
 export interface DiagramConfig {
     hubs: any[];
@@ -29,9 +28,6 @@ export class SystemDiagramComponent implements OnInit {
 
 
     ngAfterViewInit(): void {
-        // this.cascadeLoad().then(() => {
-        //     this.render()
-        // });
 
         this.render();
     }
@@ -45,18 +41,15 @@ export class SystemDiagramComponent implements OnInit {
         const canvas = this.draw2DElement.nativeElement;
 
 
-        const scale = 20
 
-        const diagramConfig = transformData(this.config)
-        let events = diagramConfigToStream(diagramConfig);
 
-        console.log(events)
+        const dl = new DiagramLayout(BASE_THEME)
+        let transformData = dl.transformData(this.config);
 
-        let rendererController = new RendererController(canvas, scale);
+        transformData.diagramSize;
+        canvas.width = transformData.diagramSize.width;
+        canvas.height = transformData.diagramSize.height;
 
-        for (let event of events) {
-            rendererController.execute(event)
-        }
 
 
     }

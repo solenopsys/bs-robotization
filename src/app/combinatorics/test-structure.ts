@@ -1,4 +1,5 @@
-import {BladeConfig, ModuleConf, ModuleSize} from "../system-diagram/diagram-data";
+import {ModuleSize} from "../system-diagram/refactoring/model";
+import {BladeConfig, ModuleConf} from "../system-diagram/refactoring/old/loader";
 
 const hubs = [
     {sideConnectors: 2, skip: [1],title: "Hub 1", description: "Hub 1 description"},
