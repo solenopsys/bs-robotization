@@ -27,18 +27,18 @@ export class HubElement extends AbstractElement<HubConf> {
                 exWidth: sizes.w,
                 exHeight: sizes.h,
                 title: this.conf.title,
-                description: this.conf.description
+                description: this.conf.description,
+                color: this.theme().hubFontColor
             })
         })
     }
 
     addRect(): { w: number, h: number } {
         let conCount = this.conf.sideConnectors;
-        let mWidth = this.theme().moduleWidth;
-        let mHeight = conCount * mWidth + (conCount - 1) * this.theme().gap;
+        let mWidth =  conCount * this.theme().moduleWidth + (conCount - 1) * this.theme().gap ;
+        let mHeight = this.theme().moduleWidth;
         this.elements.push(
             {
-
                 element: new RectElement({
                     x: 0,
                     y: 0,
@@ -54,24 +54,24 @@ export class HubElement extends AbstractElement<HubConf> {
 
     addPins() {
         for (let i = 0; i < this.conf.sideConnectors; i++) {
-            const xPos = 10 //rect.x - 2
-            const yPos: number = 20 // rect.y + i * (STANDARD_WIDTH + STANDARD_GAP) - STANDARD_WIDTH + PADDING - 0.5;
+            const xPos = i * (this.theme().moduleWidth + this.theme().gap) - this.theme().moduleWidth + this.theme().padding + -0.5 //rect.x - 2
+            const yPos: number = +0.5 // ;
 
             let basePin = new PinElement({firstArrow: true, secondArrow: true, width: 2, title: "uic"});
             const leftContact: DrawElement = {
                 transform: {
                     x: xPos,
                     y: yPos,
-                    angle: 90
+                    angle: -90
                 },
                 element: basePin
             };
             this.elements.push(leftContact)
             const rightContact: DrawElement = {
                 transform: {
-                    x: xPos + this.theme().moduleWidth + this.theme().gap,
-                    y: yPos,
-                    angle: 90
+                    x: xPos ,
+                    y: yPos+ this.theme().moduleWidth + this.theme().gap,
+                    angle: -90
                 },
                 element: basePin
             };

@@ -49,7 +49,7 @@ export class DiagramLayout {
                 let moduleElement = new ModuleElement(mod);
                 const height = mod.width * theme.moduleWidth + (mod.width - 1) * theme.gap;
 
-                leftY = leftY + height + theme.gap;
+
 
                 let moduleWidth = SIZES_MAP[mod.len];
 
@@ -61,9 +61,9 @@ export class DiagramLayout {
                         angle: 0
                     }
                 });
-
+                leftY = leftY + height+ theme.gap ;
             } else {
-                leftY = leftY + theme.moduleWidth + theme.gap;
+                leftY = leftY + theme.moduleWidth + theme.gap ;
             }
 
         });
@@ -74,7 +74,7 @@ export class DiagramLayout {
             if (mod) {
                 const height = mod.width * theme.moduleWidth + (mod.width - 1) * theme.gap;
 
-                rightY = rightY + height + theme.gap;
+
 
                 let moduleWidth = SIZES_MAP[mod.len];
                 draws.push({
@@ -85,9 +85,9 @@ export class DiagramLayout {
                         angle: 0
                     }
                 });
-
+                rightY = rightY + height + theme.gap;
             } else {
-                leftY = leftY + theme.moduleWidth + theme.gap;
+                rightY = rightY + theme.moduleWidth + theme.gap;
             }
 
 
@@ -103,9 +103,9 @@ export class DiagramLayout {
             let newVar = {
                 element: new HubElement(hub),
                 transform: {
-                    x: xHub + theme.moduleWidth + theme.gap,
-                    y: hubsHeight,
-                    angle: 0
+                    x: xHub+4 ,
+                    y: hubsHeight+theme.padding,
+                    angle: 90
                 }
             };
             draws.push(newVar);
@@ -118,8 +118,8 @@ export class DiagramLayout {
         return {
             draws,
             diagramSize: {
-                width: theme.gridPitch*(leftMax + rightMax + 2 * theme.padding + theme.moduleWidth),
-                height: theme.gridPitch*(hubsHeight + (hubsCount - 1) * theme.gap + 2 * theme.padding)
+                width: theme.gridPitch*(leftMax + rightMax + 2 * theme.padding + theme.moduleWidth+ theme.gap +2),
+                height: theme.gridPitch*(hubsHeight + 2 * theme.padding- theme.gap)
             },
         };
     }

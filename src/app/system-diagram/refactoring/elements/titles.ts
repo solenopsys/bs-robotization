@@ -17,7 +17,7 @@ export class TitlesElement extends AbstractElement<TitlesConf> {
     addTitle() {
         const titleText: TextConf = {
             text: this.conf.title,
-            color: this.theme().hubFontColor,
+            color: this.conf.color,
             size: this.theme().titleFontSize,
             bold: true,
             maxWidth: this.conf.exWidth - this.theme().titlesPadding * 2,
@@ -39,7 +39,7 @@ export class TitlesElement extends AbstractElement<TitlesConf> {
     addDescription() {
         const titleText: TextConf = {
             text: this.conf.description,
-            color: this.theme().hubFontColor,
+            color: this.conf.color,
             size: this.theme().descriptionFontSize,
             bold: false,
             maxWidth: this.conf.exWidth - this.theme().titlesPadding * 2,

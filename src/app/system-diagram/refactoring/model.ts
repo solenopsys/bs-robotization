@@ -28,7 +28,7 @@ export interface TextConf {
 export interface TitlesConf extends Titles {
     exWidth: number,
     exHeight: number,
-
+    color: string,
 }
 
 export interface Point {

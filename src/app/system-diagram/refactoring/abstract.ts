@@ -1,21 +1,21 @@
 import {BASE_THEME, Theme} from "./config";
-import {TextConf, Titles} from "./model";
-import {ModuleConf} from "./old/loader";
 
 export function drawItem(ctx: CanvasRenderingContext2D, elementDraw: DrawElement, gridPith: number) {
 
-    console.log("DRAW ITEM", elementDraw)
+
     const transform = elementDraw.transform;
     if (transform) {
+        console.log("DRAW ITEM TRANSFORMED", elementDraw)
         ctx.save();
         const x = transform.x * gridPith;
         const y = transform.y * gridPith;
         ctx.translate(x, y);
         ctx.rotate(Math.PI * (transform.angle / 90) / 2);
-        ctx.translate(-x, -y);
         elementDraw.element.draw(ctx)
+        ctx.translate(-x, -y);
         ctx.restore();
     } else {
+        console.log("DRAW ITEM", elementDraw)
         elementDraw.element.draw(ctx)
     }
 }

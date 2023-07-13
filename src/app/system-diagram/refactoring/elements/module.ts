@@ -17,20 +17,23 @@ export class ModuleElement extends AbstractElement<ModuleConf> {
         super.drawItems(ctx)
     }
 
-    addTitles(sizes :{ w: number, h: number })  {
-        this.elements.push({ element: new TitlesElement({
+    addTitles(sizes: { w: number, h: number }) {
+        this.elements.push({
+            element: new TitlesElement({
                 exWidth: sizes.w,
                 exHeight: sizes.h,
                 title: this.conf.title,
-                description: this.conf.description
-            })})
+                description: this.conf.description,
+                color: this.theme().moduleFontColor
+            })
+        })
     }
 
 
     addRect(): { w: number, h: number } {
-        let conCount = this.conf.width;
+
         let mWidth = SIZES_MAP[this.conf.len];
-        let mHeight = conCount * mWidth + (conCount - 1) * this.theme().gap;
+        let mHeight = this.conf.width * this.theme().moduleWidth + (this.conf.width - 1) * this.theme().gap;
         this.elements.push(
             {
 

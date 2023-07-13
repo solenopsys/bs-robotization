@@ -59,8 +59,8 @@ export class PinElement extends AbstractElement<ContactConf> {
         this.elements.push(
             {
                 transform: {
-                    x: 2,
-                    y: 0.5,
+                    x: 0.75,
+                    y: 0.15,
                     angle: 0
                 },
                 element: new TextElement(titleText)

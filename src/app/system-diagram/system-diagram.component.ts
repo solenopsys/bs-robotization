@@ -2,6 +2,10 @@ import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {DiagramLayout} from "./refactoring/layout";
 import {BASE_THEME} from "./refactoring/config";
 import {drawItem} from "./refactoring/abstract";
+import {PinElement} from "./refactoring/elements/pin";
+import {HubElement} from "./refactoring/elements/hub";
+import {ModuleElement} from "./refactoring/elements/module";
+import {ModuleSize} from "./refactoring/model";
 
 export interface DiagramConfig {
     hubs: any[];
@@ -35,22 +39,56 @@ export class SystemDiagramComponent implements OnInit {
 
     }
 
-    render() {
-        const canvas = this.draw2DElement.nativeElement;
+    testDraw(canvas){
+        canvas.width = 1000;
+        canvas.height = 1000;
+
+        let context = canvas.getContext("2d");
+        new HubElement(
+            {
+                title: "UIC.2",
+                description: "UIC.2",
+                sideConnectors: 4,
+                skip: [],
+            }
+        ).draw(context!);
+    }
+
+    testDrawModule(canvas){
+        canvas.width = 1000;
+        canvas.height = 1000;
+
+        let context = canvas.getContext("2d");
+        new ModuleElement(
+            {
+                title: "Bla bla ",
+                description: "sdfsd fsdf sdf sdfsd fsdf sd fsd fsd fsdfsdf",
+                len: ModuleSize.Medium,
+                width:1,
+                ioConnectors:{},
+                powerConnectors:[],
 
 
+            }
+        ).draw(context!);
+    }
+
+
+    fullDraw(canvas){
+        let ctx = canvas.getContext("2d");
         let theme = BASE_THEME;
         const dl = new DiagramLayout(theme)
         let transformData = dl.transformData(this.config);
-
-        transformData.diagramSize;
         canvas.width = transformData.diagramSize.width;
         canvas.height = transformData.diagramSize.height;
-
-        const ctx = canvas.getContext("2d");
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
         transformData.draws.forEach(d => drawItem(ctx, d, theme.gridPitch));
+    }
 
+    render() {
+        const canvas = this.draw2DElement.nativeElement;
+
+        //    this.testDrawModule(canvas);
+       this.fullDraw(canvas);
 
     }
 }

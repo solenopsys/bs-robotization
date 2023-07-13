@@ -2,7 +2,7 @@ export const BASE_THEME: Theme = {
     gridPitch: 20,
     font: "sans-serif",
     moduleFontColor: "black",
-    hubFontColor: "black",
+    hubFontColor: "white",
     contactFontColor: "white",
     moduleColor: "#D9D9D9",
     hubColor: "#4d4d4d",
