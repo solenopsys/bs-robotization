@@ -2,8 +2,26 @@ import {BASE_THEME, Theme} from "./config";
 import {TextConf, Titles} from "./model";
 import {ModuleConf} from "./old/loader";
 
+export function drawItem(ctx: CanvasRenderingContext2D, elementDraw: DrawElement, gridPith: number) {
+
+    console.log("DRAW ITEM", elementDraw)
+    const transform = elementDraw.transform;
+    if (transform) {
+        ctx.save();
+        const x = transform.x * gridPith;
+        const y = transform.y * gridPith;
+        ctx.translate(x, y);
+        ctx.rotate(Math.PI * (transform.angle / 90) / 2);
+        ctx.translate(-x, -y);
+        elementDraw.element.draw(ctx)
+        ctx.restore();
+    } else {
+        elementDraw.element.draw(ctx)
+    }
+}
+
 export interface Element {
-    draw(ctx): void
+    draw(ctx: CanvasRenderingContext2D): void
 
     scale(value: number): number
 
@@ -12,7 +30,7 @@ export interface Element {
 
 export interface DrawElement {
     element: Element
-    transform: { x: number, y: number, angle: number }
+    transform?: { x: number, y: number, angle: number }
 }
 
 export abstract class AbstractElement<T> implements Element {
@@ -20,85 +38,20 @@ export abstract class AbstractElement<T> implements Element {
     elements: DrawElement[] = []
 
 
+    abstract draw(ctx: CanvasRenderingContext2D): void
 
 
-    abstract draw(ctx): void
-
-    drawItem(ctx,transform,elementDraw){
-        ctx.save();
-        ctx.translate(transform.x, transform.y);
-        ctx.rotate(Math.PI * (transform.angle / 90) / 2);
-        ctx.translate(-transform.x, -transform.x);
-        elementDraw.element.draw(ctx)
-        ctx.restore();
-    }
-
-    drawItems(ctx) {
+    drawItems(ctx: CanvasRenderingContext2D) {
         for (let elementDraw of this.elements) {
-            let transform = elementDraw.transform;
-            this.drawItem(ctx,transform,elementDraw)
+            drawItem(ctx, elementDraw, this.theme().gridPitch)
         }
     }
 
     public scale(value: number): number {
-        return value
+        return value * this.theme().gridPitch
     }
 
     theme(): Theme {
         return BASE_THEME;
     }
 }
-
-
-export abstract class TitlesElement<T extends Titles> extends AbstractElement<T> {
-    protected width: number;
-    protected height: number;
-
-
-    // genText(rect: any, text: string, fontSize: number, vertical, type: TextType): Text {
-    //     const PADD = 1;
-    //     let descr = type === TextType.DESCRIPTION ? PADD : 0;
-    //     let padding = type === TextType.CONTACT ? 0 : PADD * 2;
-    //
-    //     return {
-    //         point: type === TextType.CONTACT ? {
-    //             x: rect.x,
-    //             y: rect.y,
-    //         } : {
-    //             x: rect.x + (vertical ? 3 - descr : PADD),
-    //             y: rect.y + 1 + (vertical ? 0 : descr),
-    //         },
-    //         color: "black",
-    //         text,
-    //         size: fontSize,
-    //         vertical,
-    //         bold: !descr,
-    //         maxWidth: vertical ? mHeight : mWidth,
-    //         maxHeight: vertical ? mWidth : mHeight,
-    //     };
-    // }
-
-    protected addTexts() {
-        let mWidth = this.width - this.theme().padding;
-        let mHeight = this.height - this.theme().padding;
-        const titleText: TextConf = {
-            text: this.conf.title,
-            color: this.theme().hubFontColor,
-            size: this.theme().titleFontSize,
-            bold: true,
-            maxWidth: mWidth,
-            maxHeight: mHeight,
-        }
-        this.elements.push(
-            {
-                transform: {
-                    x: 1,
-                    y: 1,
-                    angle: 0
-                },
-                element: null //new TextElement(titleText)
-            }
-        );
-    }
-}
-

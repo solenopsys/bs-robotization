@@ -1,9 +1,9 @@
 export const BASE_THEME: Theme = {
-    gridPitch: 10,
+    gridPitch: 20,
     font: "sans-serif",
     moduleFontColor: "black",
     hubFontColor: "black",
-    contactFontColor: "black",
+    contactFontColor: "white",
     moduleColor: "#D9D9D9",
     hubColor: "#4d4d4d",
     contactColor: "#235adc",
@@ -12,7 +12,9 @@ export const BASE_THEME: Theme = {
     gap: 2,
     padding: 6,
     titleFontSize: 12,
+    titlesPadding: 1,
     descriptionFontSize: 10,
+    contactFontSize: 10,
 }
 
 
@@ -28,9 +30,11 @@ export interface Theme {
     moduleWidth: number;
     gap: number;
     padding: number;
+    titlesPadding: number;
     moduleFontColor: string;
     hubFontColor: string;
     contactFontColor: string;
+    contactFontSize: number;
     titleFontSize: number;
     descriptionFontSize: number;
 }

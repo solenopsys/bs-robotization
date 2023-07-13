@@ -10,7 +10,7 @@ export class TextElement extends AbstractElement<TextConf> {
         this.conf = conf
     }
 
-    draw(ctx): void {
+    draw(ctx:CanvasRenderingContext2D): void {
 
         const txData: TextConf = this.conf
 
@@ -20,6 +20,7 @@ export class TextElement extends AbstractElement<TextConf> {
 
         let scaleWidth = this.scale(txData.maxWidth)
         let scaleHeight = this.scale(this.conf.maxHeight);
+
         canvasTxt.fontWeight = txData.bold ? "bold" : "normal";
         canvasTxt.font = this.theme().font
         canvasTxt.fontSize = txData.size
@@ -32,3 +33,4 @@ export class TextElement extends AbstractElement<TextConf> {
         canvasTxt.drawText(ctx, txData.text, 0, 0, scaleWidth, scaleHeight)
     }
 }
+

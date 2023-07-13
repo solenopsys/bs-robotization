@@ -118,8 +118,8 @@ export class DiagramLayout {
         return {
             draws,
             diagramSize: {
-                width: leftMax + rightMax + 2 * theme.padding + theme.moduleWidth,
-                height: hubsHeight + (hubsCount - 1) * theme.gap + 2 * theme.padding
+                width: theme.gridPitch*(leftMax + rightMax + 2 * theme.padding + theme.moduleWidth),
+                height: theme.gridPitch*(hubsHeight + (hubsCount - 1) * theme.gap + 2 * theme.padding)
             },
         };
     }

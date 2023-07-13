@@ -10,7 +10,7 @@ export class PolygonElement extends AbstractElement<PolygonConf> {
     }
 
 
-    draw(ctx): void {
+    draw(ctx:CanvasRenderingContext2D): void {
         ctx.beginPath();
         const vertices= this.conf.points
         ctx.moveTo(super.scale(vertices[0].x), super.scale(vertices[0].y));

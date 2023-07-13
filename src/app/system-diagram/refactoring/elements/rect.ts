@@ -8,7 +8,7 @@ export class RectElement extends AbstractElement<RectConf> {
         super()
         this.conf = conf
     }
-    draw(ctx): void {
+    draw(ctx:CanvasRenderingContext2D): void {
         ctx.fillStyle = this.conf.color;
         ctx.fillRect(
             this.scale(this.conf.x),

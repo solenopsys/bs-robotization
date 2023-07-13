@@ -10,6 +10,7 @@ export interface HubConf extends Titles{
 }
 
 export interface ContactConf {
+    title: string,
     firstArrow: boolean,
     secondArrow: boolean,
     width:number,
@@ -24,6 +25,11 @@ export interface TextConf {
     bold:boolean
 }
 
+export interface TitlesConf extends Titles {
+    exWidth: number,
+    exHeight: number,
+
+}
 
 export interface Point {
     x: number,

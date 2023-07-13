@@ -1,6 +1,7 @@
-import {ContactConf, Point, PolygonConf} from "../model";
+import {ContactConf, Point, PolygonConf, TextConf} from "../model";
 import {AbstractElement} from "../abstract";
 import {PolygonElement} from "./polygon";
+import {TextElement} from "./text";
 
 export class PinElement extends AbstractElement<ContactConf> {
 
@@ -8,9 +9,10 @@ export class PinElement extends AbstractElement<ContactConf> {
         super();
         this.conf = conf
         this.addPolygon()
+        this.addTitle()
     }
 
-    draw(ctx): void {
+    draw(ctx:CanvasRenderingContext2D): void {
         this.drawItems(ctx)
     }
 
@@ -41,8 +43,30 @@ export class PinElement extends AbstractElement<ContactConf> {
 
         let polygonConf:PolygonConf = {points };
         let polygonElement = new PolygonElement(polygonConf);
-        this.elements.push({element: polygonElement, transform: {x: 0, y: 0, angle: 0}})
+        this.elements.push({element: polygonElement})
     }
 
+
+    addTitle() {
+        const titleText: TextConf = {
+            text: this.conf.title,
+            color: this.theme().contactFontColor,
+            size: this.theme().contactFontSize,
+            bold: true,
+            maxWidth: this.conf.width,
+            maxHeight: 1,
+        }
+        this.elements.push(
+            {
+                transform: {
+                    x: 2,
+                    y: 0.5,
+                    angle: 0
+                },
+                element: new TextElement(titleText)
+            }
+        );
+
+    }
 
 }
