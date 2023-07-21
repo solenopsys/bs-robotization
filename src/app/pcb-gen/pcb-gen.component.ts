@@ -2,10 +2,10 @@ import {AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/c
 import * as THREE from "three";
 import {RGBELoader} from "three/examples/jsm/loaders/RGBELoader";
 
+import type { HubConfig } from "./tools/hub-drawer"
+import  {generateHub} from "./tools/hub-drawer"
 
 import {
-    generateHub,
-    HubConfig,
     M2_HEIGHT,
     M2_PADDING,
     M2_PIN_HEIGHT,
@@ -31,7 +31,7 @@ export class PcbGenComponent implements AfterViewInit {
     scene: THREE.Scene;
 
     @Input()
-    config: HubConfig
+    config!: HubConfig
     @Input()
     cameraType = "front";
 

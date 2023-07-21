@@ -8,7 +8,7 @@ export const M2_PADDING = 2.5;
 export const M2_PIN_HEIGHT = 3;
 
 
-export interface HubConfig {
+export type HubConfig = {
     connectorsBySide: number,
     skip: number[],
 }

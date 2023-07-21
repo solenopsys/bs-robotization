@@ -37,7 +37,7 @@ export const appRoutes: Route[] = [
     //     pathMatch: 'full'
     // },
     {
-        path: "sys",
+        path: "sys/.",
         component: CombinatoricsComponent,
     },
 

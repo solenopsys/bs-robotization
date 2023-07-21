@@ -26,7 +26,7 @@ export class SystemDiagramComponent implements OnInit {
 
 
     @Input()
-    config: DiagramConfig
+    config!: DiagramConfig
 
 
     ngAfterViewInit(): void {
@@ -39,7 +39,7 @@ export class SystemDiagramComponent implements OnInit {
 
     }
 
-    testDraw(canvas){
+    testDraw(canvas: HTMLCanvasElement){
         canvas.width = 1000;
         canvas.height = 1000;
 
@@ -54,7 +54,7 @@ export class SystemDiagramComponent implements OnInit {
         ).draw(context!);
     }
 
-    testDrawModule(canvas){
+    testDrawModule(canvas:HTMLCanvasElement){
         canvas.width = 1000;
         canvas.height = 1000;
 
@@ -74,7 +74,7 @@ export class SystemDiagramComponent implements OnInit {
     }
 
 
-    fullDraw(canvas){
+    fullDraw(canvas:HTMLCanvasElement){
         let ctx = canvas.getContext("2d");
         let theme = BASE_THEME;
         const dl = new DiagramLayout(theme)

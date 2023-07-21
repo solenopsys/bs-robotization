@@ -17,8 +17,8 @@ export interface PowerLine {
 
 export interface BladeConfig {
     hubs: HubConf[]
-    leftIdiModules: ModuleConf[]
-    rightIdiModules: ModuleConf[]
+    leftIdiModules: (ModuleConf|undefined)[]
+    rightIdiModules: (ModuleConf|undefined)[]
     powerGroup: string[][]
 }
 

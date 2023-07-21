@@ -20,7 +20,7 @@ export const BASE_THEME: Theme = {
 
 export const PADDING = 6;
 
-export interface Theme {
+export type Theme = {
     font: string,
     gridPitch: number,
     moduleColor: string;

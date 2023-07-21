@@ -5,7 +5,7 @@ const hubs = [
     {sideConnectors: 2, skip: [1],title: "Hub 1", description: "Hub 1 description"},
     {sideConnectors: 4, skip: [],title: "Hub 2", description: "Hub 2 description"}];
 
-const leftIdiModules: ModuleConf[] = [
+const leftIdiModules: (ModuleConf|undefined )[]= [
     {
         len: ModuleSize.Medium,
         width: 1,
@@ -45,7 +45,7 @@ const leftIdiModules: ModuleConf[] = [
         description: "Converts 400 volts to 48 volts",
     }
 ];
-const rightIdiModules: ModuleConf[] = [
+const rightIdiModules: (ModuleConf|undefined )[]= [
     undefined,
     {
         len: ModuleSize.Medium,

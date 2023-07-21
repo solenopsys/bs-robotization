@@ -1,6 +1,7 @@
 import {BladeConfig, DiagramConfig, ModuleConf} from "./old/loader";
 import {DrawElement} from "./abstract";
-import {SIZES_MAP, Theme} from "./config";
+import {SIZES_MAP} from "./config";
+import type  {Theme} from "./config";
 import {ModuleElement} from "./elements/module";
 import {HubElement} from "./elements/hub";
 import {HubConf} from "./model";
