@@ -14,7 +14,8 @@ const external =
         "@angular/router",
     ];
 
-import {angular} from '../../../tools/solenopsys/vite-micro-federation/src/plugin/index'
+import {angular} from "../../../../tools/vite-micro-federation/src/plugin";
+
 //import {angular} from '../../../tools/solenopsys/vite-micro-federation-min/src/plugin/index'
 export default defineConfig({
     plugins: [angular(), splitVendorChunkPlugin()],

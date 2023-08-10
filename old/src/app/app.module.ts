@@ -16,10 +16,7 @@ import { AboutComponent } from './about/about.component';
 import { StructureComponent } from './structure/structure.component';
 import { TechnologyComponent } from './technology/technology.component';
 import { MicrofondsComponent } from './microfonds/microfonds.component';
-import { PcbGenComponent } from './pcb-gen/pcb-gen.component';
 import { HelperRenderComponent } from './helper-render/helper-render.component';
-import { SystemDiagramComponent } from './system-diagram/system-diagram.component';
-import { CombinatoricsComponent } from './combinatorics/combinatorics.component';
 
 export const appRoutes: Route[] = [
     {
@@ -31,15 +28,7 @@ export const appRoutes: Route[] = [
         path: "main/.",
         component: MainPageComponent,
     },
-    // {
-    //     path: "sys",
-    //     redirectTo: "sys/.",
-    //     pathMatch: 'full'
-    // },
-    {
-        path: "sys/.",
-        component: CombinatoricsComponent,
-    },
+
 
     {
         path: "main/.",
@@ -49,10 +38,6 @@ export const appRoutes: Route[] = [
     {
         path: "microfonds/.",
         component: MicrofondsComponent,
-    },
-    {
-        path: "pcb",
-        component: PcbGenComponent,
     },
 
     // {
@@ -105,10 +90,7 @@ export const appRoutes: Route[] = [
         StructureComponent,
         TechnologyComponent,
         MicrofondsComponent,
-        PcbGenComponent,
-        HelperRenderComponent,
-        SystemDiagramComponent,
-        CombinatoricsComponent
+        HelperRenderComponent
     ],
     providers: [],
     bootstrap: [AppComponent],

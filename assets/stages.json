@@ -1,5 +1,6 @@
 [
   {
+    "id": "low-power-robotics",
     "name": "Low power robotics (up to 240 watts)",
     "target": "3D printers (FDM)",
     "modules": [
@@ -54,6 +55,7 @@
     ]
   },
   {
+    "id": "autonomous-robotics-drones-autonomous-power-management",
     "name": "Autonomous robotics drones & Autonomous power management",
     "target": "robots and drones",
     "modules": [
@@ -92,6 +94,7 @@
     ]
   },
   {
+    "id": "3d-printers-sla",
     "name": "3D printers ",
     "target": "3D printers (SLA)",
     "modules": [
@@ -146,6 +149,7 @@
     ]
   },
   {
+    "id": "hi-power-robotics-up-to-10000-watts",
     "name": "Middle power robotics, (up to 10.000 watts)",
     "target": "Hi power industrial robots, CNC machines (lathe, milling)",
     "modules": [
@@ -192,6 +196,7 @@
     ]
   },
   {
+    "id": "industrial-automation",
     "name": "Industrial data processing && Data transmission",
     "target": "industrial systems for data processing, industrial systems for data transmission, wires and wireless",
     "modules": [
@@ -210,18 +215,22 @@
     ]
   },
   {
+    "id": "photonics-energy-systems",
     "name": "Photonics energy systems",
     "target": ""
   },
   {
+    "id": "deep-industrial",
     "name": "Deep industrial  ",
     "target": "industrial systems for data transmission, wires and wireless"
   },
   {
+    "id": "sensors",
     "name": "Sensors ",
     "target": "industrial systems for data transmission, wires and wireless"
   },
   {
+    "id": "autonomous-systems-controllers",
     "name": "Autonomous systems controllers ",
     "target": "solar inverters, generator inverter, accumulators invertor, dws controller"
   }

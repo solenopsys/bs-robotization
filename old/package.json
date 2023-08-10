@@ -4,9 +4,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "vite --open",
+    "dev": "vite ",
     "build": "vite build",
-    "start": "vite preview --open",
+    "start": "vite preview ",
     "serve-old": "ng serve",
     "build-old": "ng build",
     "shema gen": "json-schema-to-typescript --no-top-ref src/assets/iusb-shema.json --out src/types.ts"
